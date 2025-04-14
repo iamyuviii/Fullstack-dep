@@ -12,5 +12,5 @@ services:
     ports:
       - "5000:5000"
     environment:
-      - MONGO_URI=your_mongo_uri
+      - MONGO_URI=mongodb+srv://xrazorx89:Ludp03HjDe3DTeXZ@cluster0.yu7q83g.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
 
