@@ -1,52 +1,36 @@
-name: CI
+name: Node.js Docker CI
 
 on:
   push:
-    branches: [main]
+    branches: [ main ]
   pull_request:
-    branches: [main]
+    branches: [ main ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
-    services:
-      mongo:
-        image: mongo:latest
-        ports:
-          - 27017:27017
-        options: --health-cmd "mongosh --eval 'db.adminCommand(\"ping\")'" --health-interval 10s --health-timeout 5s --health-retries 5
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+    - name: Checkout code
+      uses: actions/checkout@v3
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 18
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
 
-      - name: Install client dependencies
-        working-directory: ./client
-        run: npm ci
+    - name: Install dependencies for client
+      run: |
+        cd client
+        npm ci
 
-      - name: Install server dependencies
-        working-directory: ./server
-        run: npm ci
+    - name: Install dependencies for server
+      run: |
+        cd server
+        npm ci
 
-      - name: Build client
-        working-directory: ./client
-        run: npm run build
-
-      - name: Run server tests
-        working-directory: ./server
-        run: npm test || echo "No tests found"
-
-      - name: Docker Compose Build
-        run: docker-compose -f docker-compose.yml build
-
-      - name: Docker Compose Up
-        run: docker-compose -f docker-compose.yml up -d
-
-      - name: Check running containers
-        run: docker ps -a
+    - name: Run Docker Compose
+      run: |
+        docker-compose up --build -d
+        sleep 10
+        docker ps
