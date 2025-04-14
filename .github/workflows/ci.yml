@@ -19,16 +19,25 @@ jobs:
       with:
         node-version: '18'
 
-    - name: Install dependencies for Client
-      working-directory: Client
-      run: npm ci
+    - name: Install dependencies for client
+      run: |
+        cd Client
+        npm ci
 
-    - name: Install dependencies for Server
-      working-directory: Server
-      run: npm ci
+    - name: Install dependencies for server
+      run: |
+        cd Server
+        npm ci
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+
+    - name: Install Docker Compose CLI plugin
+      run: |
+        sudo apt-get update
+        sudo apt-get install docker-compose-plugin
 
     - name: Run Docker Compose
       run: |
-        docker-compose up --build -d
-        sleep 10
+        docker compose up --build -d
         docker ps
