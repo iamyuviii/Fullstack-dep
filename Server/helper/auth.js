@@ -1,4 +1,4 @@
-// Password encryption using bcryptjs
+// Password encryption using bcryptjsdqdq
 const bcrypt = require('bcryptjs');
 const hashPass = (password) => {
     return new Promise((resolve, reject) => {
