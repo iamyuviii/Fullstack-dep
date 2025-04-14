@@ -19,12 +19,12 @@ jobs:
       with:
         node-version: '18'
 
-    - name: Install dependencies for client
-      working-directory: ./client
+    - name: Install dependencies for Client
+      working-directory: Client
       run: npm ci
 
-    - name: Install dependencies for server
-      working-directory: ./server
+    - name: Install dependencies for Server
+      working-directory: Server
       run: npm ci
 
     - name: Run Docker Compose
