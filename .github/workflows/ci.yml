@@ -43,7 +43,7 @@
 #         docker ps
 
 
-name: Build on PR
+name: CI on Pull Request
 
 on:
   pull_request:
@@ -51,17 +51,30 @@ on:
       - master
 
 jobs:
-  build:
+  build-client-and-server:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Use Node.js
+
+      - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '20'
-      
-      - name: Install Dependencies
+
+      # Build Client
+      - name: Install Client Dependencies
+        working-directory: ./Client
         run: npm install
-        
-      - name: Run Build
+
+      - name: Build Client
+        working-directory: ./Client
         run: npm run build
+
+      # Build Server
+      - name: Install Server Dependencies
+        working-directory: ./Server
+        run: npm install
+
+      - name: Lint or Test Server (optional)
+        working-directory: ./Server
+        run: echo "Run server tests here or skip"
