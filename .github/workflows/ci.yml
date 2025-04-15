@@ -1,54 +1,8 @@
-# name: Node.js Docker CI
-
-# on:
-#   push:
-#     branches: [ main ]
-#   pull_request:
-#     branches: [ main ]
-
-# jobs:
-#   build:
-#     runs-on: ubuntu-latest
-
-#     steps:
-#     - name: Checkout code
-#       uses: actions/checkout@v3
-
-#     - name: Set up Node.js
-#       uses: actions/setup-node@v4
-#       with:
-#         node-version: '18'
-
-#     - name: Install dependencies for client
-#       run: |
-#         cd Client
-#         npm ci
-
-#     - name: Install dependencies for server
-#       run: |
-#         cd Server
-#         npm ci
-
-#     - name: Set up Docker Buildx
-#       uses: docker/setup-buildx-action@v3
-
-#     - name: Install Docker Compose CLI plugin
-#       run: |
-#         sudo apt-get update
-#         sudo apt-get install docker-compose-plugin
-
-#     - name: Run Docker Compose
-#       run: |
-#         docker compose up --build -d
-#         docker ps
-
-
-name: CI on Pull Request
+name: CI on Push and PR
 
 on:
+  push:
   pull_request:
-    branches:
-      - master
 
 jobs:
   build-client-and-server:
@@ -61,7 +15,7 @@ jobs:
         with:
           node-version: '20'
 
-      # Build Client
+      # Client
       - name: Install Client Dependencies
         working-directory: ./Client
         run: npm install
@@ -70,11 +24,11 @@ jobs:
         working-directory: ./Client
         run: npm run build
 
-      # Build Server
+      # Server
       - name: Install Server Dependencies
         working-directory: ./Server
         run: npm install
 
-      - name: Lint or Test Server (optional)
+      - name: Test Server (optional)
         working-directory: ./Server
-        run: echo "Run server tests here or skip"
+        run: echo "Tests go here"
