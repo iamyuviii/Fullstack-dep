@@ -30,7 +30,12 @@ jobs:
           push: true
           tags: imyuviii/fullstack-dep:latest
 
+      - name: Test SSH Connectivity
+        run: |
+          ssh -o StrictHostKeyChecking=no -i ${{ secrets.SSH_KEY }} ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} echo "SSH connection successful"
+
       - name: Deploy to EC2 Instance
+        if: success() # Only deploy if the SSH test is successful
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.SSH_HOST }}
