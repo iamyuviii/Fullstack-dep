@@ -45,5 +45,5 @@ jobs:
           script: |
             docker pull imyuviii/fullstack-dep:latest
             docker stop web-app || true
-            docker rm web-app || true
-            docker run -d --name web-app -p 3005:3000 --restart unless-stopped imyuviii/fullstack-dep:latest
+            docker rm -f web-app || true
+            docker run -d --name web-app -p 3005:8000 --restart unless-stopped imyuviii/fullstack-dep:latest
