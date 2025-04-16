@@ -11,7 +11,7 @@ services:
   server:
     build: ./Server
     ports:
-      - "5000:5000"
+      - "5000:8000"      # Mapping host port 5000 to container's port 8000
     environment:
       - MONGO_URI=mongodb+srv://xrazorx89:Ludp03HjDe3DTeXZ@cluster0.yu7q83g.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
     restart: always
